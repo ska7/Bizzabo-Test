@@ -8,7 +8,10 @@ const App = () => {
   const proxyurl = "https://cors-anywhere.herokuapp.com/";
   const url = "https://api.bizzabo.com/api/events";
   const [value, onChange] = useState(new Date());
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([
+    { startDate: "2021-01-06T18:00:00.000+0000" },
+    { startDate: "2020-03-09T17:00:00.000+0000" },
+  ]);
   useEffect(() => {}, []);
 
   const handleClick = () => {
@@ -18,7 +21,10 @@ const App = () => {
           Authorization: `Bearer b2f9b657-d8fd-4c34-a28b-eba13cab25c2`,
         },
       })
-      .then((res) => setEvents(res.data.content))
+      .then((res) => {
+        setEvents(res.data.content);
+        console.log(res.data.content);
+      })
       .catch((e) => console.log(e));
 
     const date = new Date();
@@ -34,11 +40,30 @@ const App = () => {
         onChange={onChange}
         value={value}
         tileContent={({ activeStartDate, date, view }) => {
-          if (date.getDate() === 5) {
-            return <p>ITS YOUR DAY FUCKER</p>;
-          } else if (date.getDate() === 6) {
-            return <p>ITS NOT YOUR DAY</p>;
-          }
+          events.forEach((event) => {
+            // We need date formatted as yyyy-mm-dd
+            const eventDate = event.startDate.split("T")[0];
+            const year = date.getFullYear();
+            const month =
+              date.getMonth().toString().length === 1
+                ? `0${date.getMonth()}`
+                : date.getMonth();
+            const day =
+              date.getDate().toString().length === 1
+                ? `0${date.getDate()}`
+                : date.getDate();
+            const calendarDate = `${year}-${month}-${day}`;
+            console.log("DATE FORMATTED", calendarDate);
+            console.log("DATE EVENT", eventDate);
+            if (calendarDate === eventDate) {
+              return <p style={{ fontSize: "15px" }}>YOU'VE GOT AN EVENT</p>;
+            }
+          });
+          // if (date.getDate() === 5) {
+          //   return <p style={{ fontSize: "15px" }}>ITS YOUR DAY FUCKER</p>;
+          // } else if (date.getDate() === 6) {
+          //   return <p style={{ fontSize: "15px" }}>ITS NOT YOUR DAY</p>;
+          // }
         }}
       />
     </div>
