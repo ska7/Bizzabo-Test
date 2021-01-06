@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.scss";
+import React, { useEffect } from "react";
+import axios from "axios";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+  useEffect(() => {
+    axios
+      .get("https://api.bizzabo.com/api/events", {
+        headers: {
+          Authorization: `Bearer b2f9b657-d8fd-4c34-a28b-eba13cab25c2`,
+        },
+      })
+      .then((res) => console.log(res));
+  }, []);
+  return <div className="App">HEY</div>;
+};
 
 export default App;
