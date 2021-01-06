@@ -39,23 +39,25 @@ const App = () => {
       <Calendar
         onChange={onChange}
         value={value}
+        locale="en-US"
         tileContent={({ activeStartDate, date, view }) => {
+          // We need date formatted as yyyy-mm-dd
+          const year = date.getFullYear();
+          const month =
+            date.getMonth().toString().length === 1
+              ? `0${date.getMonth() + 1}`
+              : date.getMonth() + 1;
+          const day =
+            date.getDate().toString().length === 1
+              ? `0${date.getDate()}`
+              : date.getDate();
+          const calendarDate = `${year}-${month}-${day}`;
+          console.log("DATE FORMATTED", calendarDate);
           events.forEach((event) => {
-            // We need date formatted as yyyy-mm-dd
             const eventDate = event.startDate.split("T")[0];
-            const year = date.getFullYear();
-            const month =
-              date.getMonth().toString().length === 1
-                ? `0${date.getMonth()}`
-                : date.getMonth();
-            const day =
-              date.getDate().toString().length === 1
-                ? `0${date.getDate()}`
-                : date.getDate();
-            const calendarDate = `${year}-${month}-${day}`;
-            console.log("DATE FORMATTED", calendarDate);
-            console.log("DATE EVENT", eventDate);
+            // console.log("DATE EVENT", eventDate);
             if (calendarDate === eventDate) {
+              console.log("SUCCESS");
               return <p style={{ fontSize: "15px" }}>YOU'VE GOT AN EVENT</p>;
             }
           });
@@ -71,3 +73,24 @@ const App = () => {
 };
 
 export default App;
+
+// events.forEach((event) => {
+//   // We need date formatted as yyyy-mm-dd
+//   const eventDate = event.startDate.split("T")[0];
+//   const year = date.getFullYear();
+//   const month =
+//     date.getMonth().toString().length === 1
+//       ? `0${date.getMonth() + 1}`
+//       : date.getMonth() + 1;
+//   const day =
+//     date.getDate().toString().length === 1
+//       ? `0${date.getDate()}`
+//       : date.getDate();
+//   const calendarDate = `${year}-${month}-${day}`;
+//   console.log("DATE FORMATTED", calendarDate);
+//   // console.log("DATE EVENT", eventDate);
+//   if (calendarDate === eventDate) {
+//     console.log("SUCCESS");
+//     return <p style={{ fontSize: "15px" }}>YOU'VE GOT AN EVENT</p>;
+//   }
+// });
