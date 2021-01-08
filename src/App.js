@@ -3,15 +3,16 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import { Modal } from "./components/Modal";
 
 const App = () => {
   const proxyurl = "https://cors-anywhere.herokuapp.com/";
   const url = "https://api.bizzabo.com/api/events";
   const [value, onChange] = useState(new Date());
-  const [events, setEvents] = useState([
-    { startDate: "2021-01-06T18:00:00.000+0000" },
-    { startDate: "2020-03-09T17:00:00.000+0000" },
-  ]);
+  const [events, setEvents] = useState([]);
+  const [dayEvents, setDayEvents] = useState([]);
+  const [modal, showModal] = useState({ isOpen: false, dayClicked: "" });
+  const hideModal = () => showModal({ ...modal, isOpen: false });
   useEffect(() => {}, []);
 
   const handleClick = () => {
@@ -26,11 +27,31 @@ const App = () => {
         console.log(res.data.content);
       })
       .catch((e) => console.log(e));
+  };
 
-    const date = new Date();
-    // const formattedDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+  const getTileContent = (events, date) => {
+    // We need date formatted as yyyy-mm-dd
+    const calendarDate = date.toISOString().split("T")[0];
+    // console.log("DATE FORMATTED", calendarDate);
+    for (let event of events) {
+      const eventDate = event.startDate.split("T")[0];
+      if (calendarDate === eventDate) {
+        return (
+          <div className="event-tile-style">
+            <p className="event-tile-text">YOU'VE GOT AN EVENT</p>
+            <img src={event.coverPhotoUrl} alt=""></img>
+          </div>
+        );
+      }
+    }
+  };
 
-    console.log(date.toISOString());
+  const getDayEvents = (events, date) => {
+    const dueEvents = events.filter((event) => {
+      const eventDate = event.startDate.split("T")[0];
+      return eventDate === date;
+    });
+    return dueEvents;
   };
 
   return (
@@ -41,56 +62,35 @@ const App = () => {
         value={value}
         locale="en-US"
         tileContent={({ activeStartDate, date, view }) => {
-          // We need date formatted as yyyy-mm-dd
-          const year = date.getFullYear();
-          const month =
-            date.getMonth().toString().length === 1
-              ? `0${date.getMonth() + 1}`
-              : date.getMonth() + 1;
-          const day =
-            date.getDate().toString().length === 1
-              ? `0${date.getDate()}`
-              : date.getDate();
-          const calendarDate = `${year}-${month}-${day}`;
-          console.log("DATE FORMATTED", calendarDate);
-          events.forEach((event) => {
-            const eventDate = event.startDate.split("T")[0];
-            // console.log("DATE EVENT", eventDate);
-            if (calendarDate === eventDate) {
-              console.log("SUCCESS");
-              return <p style={{ fontSize: "15px" }}>YOU'VE GOT AN EVENT</p>;
-            }
-          });
-          // if (date.getDate() === 5) {
-          //   return <p style={{ fontSize: "15px" }}>ITS YOUR DAY FUCKER</p>;
-          // } else if (date.getDate() === 6) {
-          //   return <p style={{ fontSize: "15px" }}>ITS NOT YOUR DAY</p>;
-          // }
+          return getTileContent(events, date);
         }}
+        onClickDay={(value, event) => {
+          // for the date to always be correct, we should add 1 day to it
+          const addDays = (date, days) => {
+            const result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result.toISOString().split("T")[0];
+          };
+
+          const dayClicked = addDays(value, 1);
+
+          // Loop through all the events and store the ones due the date clicked in state
+
+          setDayEvents(getDayEvents(events, dayClicked));
+          showModal({
+            isOpen: true,
+            dayClicked: dayClicked,
+          });
+        }}
+      />
+      <Modal
+        isOpen={modal.isOpen}
+        hideModal={hideModal}
+        dayEvents={dayEvents}
+        dayClicked={modal.dayClicked}
       />
     </div>
   );
 };
 
 export default App;
-
-// events.forEach((event) => {
-//   // We need date formatted as yyyy-mm-dd
-//   const eventDate = event.startDate.split("T")[0];
-//   const year = date.getFullYear();
-//   const month =
-//     date.getMonth().toString().length === 1
-//       ? `0${date.getMonth() + 1}`
-//       : date.getMonth() + 1;
-//   const day =
-//     date.getDate().toString().length === 1
-//       ? `0${date.getDate()}`
-//       : date.getDate();
-//   const calendarDate = `${year}-${month}-${day}`;
-//   console.log("DATE FORMATTED", calendarDate);
-//   // console.log("DATE EVENT", eventDate);
-//   if (calendarDate === eventDate) {
-//     console.log("SUCCESS");
-//     return <p style={{ fontSize: "15px" }}>YOU'VE GOT AN EVENT</p>;
-//   }
-// });
