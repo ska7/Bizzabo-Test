@@ -12,6 +12,10 @@ export const Modal = ({ isOpen, dayEvents, hideModal, dayClicked }) => {
     return formattedEventTime;
   };
 
+  const formatEventInfo = (info) => {
+    return info.length > 100 ? `${info.slice(0, 100)}...` : info;
+  };
+
   const handleKeyDown = (event) => {
     if (event.key === "Escape") {
       hideModal();
@@ -35,17 +39,18 @@ export const Modal = ({ isOpen, dayEvents, hideModal, dayClicked }) => {
           <button onClick={hideModal}>CLOSE EVENTS</button>
           <div className="modal">
             <ModalLegend dayClicked={dayClicked} />
+
             {/* eslint-disable-next-line */}
             {dayEvents.map((event) => {
               return (
                 <a href={event.websiteUrl} target="_blank" rel="noreferrer">
                   <Event
                     eventImage={event.coverPhotoUrl}
-                    eventName={event.name}
+                    eventName={formatEventInfo(event.name)}
                     eventTime={formatEventTime(event.startDate)}
                     eventLocation={
                       event.hasOwnProperty("venue") &&
-                      event.venue.displayAddress
+                      formatEventInfo(event.venue.displayAddress)
                     }
                   />
                 </a>

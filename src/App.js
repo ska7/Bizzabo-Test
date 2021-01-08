@@ -31,14 +31,17 @@ const App = () => {
 
   const getTileContent = (events, date) => {
     // We need date formatted as yyyy-mm-dd
-    const calendarDate = date.toISOString().split("T")[0];
-    // console.log("DATE FORMATTED", calendarDate);
+    let calendarDate = addDays(date, 1).toISOString().split("T")[0];
+    const day = date.getDate();
     for (let event of events) {
       const eventDate = event.startDate.split("T")[0];
       if (calendarDate === eventDate) {
         return (
           <div className="event-tile-style">
-            <p className="event-tile-text">YOU'VE GOT AN EVENT</p>
+            <div className="event-tile-date-number">
+              <p>{day}</p>
+            </div>
+            <p className="event-tile-text">YOU'VE GOT EVENTS</p>
             <img src={event.coverPhotoUrl} alt=""></img>
           </div>
         );
@@ -54,25 +57,25 @@ const App = () => {
     return dueEvents;
   };
 
+  // To sync date, we should add 1 day to it
+  const addDays = (date, days) => {
+    const result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+  };
+
   return (
     <div className="App">
-      <button onClick={handleClick}>PULL DATA</button>
+      {/* <button onClick={handleClick}>PULL DATA</button> */}
       <Calendar
         onChange={onChange}
         value={value}
         locale="en-US"
         tileContent={({ activeStartDate, date, view }) => {
-          return getTileContent(events, date);
+          if (view === "month") return getTileContent(events, date);
         }}
         onClickDay={(value, event) => {
-          // for the date to always be correct, we should add 1 day to it
-          const addDays = (date, days) => {
-            const result = new Date(date);
-            result.setDate(result.getDate() + days);
-            return result.toISOString().split("T")[0];
-          };
-
-          const dayClicked = addDays(value, 1);
+          const dayClicked = addDays(value, 1).toISOString().split("T")[0];
 
           // Loop through all the events and store the ones due the date clicked in state
 
