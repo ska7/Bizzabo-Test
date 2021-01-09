@@ -47,11 +47,7 @@ a {
   // justify-content: center;
   // align-items: center;
   overflow: hidden;
-  transition: all 0.5s ease;
-  &:hover {
-    filter: contrast(150%);
-    transform: scale(1.5);
-  }
+
   .event-tile-date-number {
     position: absolute;
     height: 100%;
@@ -82,10 +78,15 @@ a {
     font-weight: bold;
   }
   img {
-    z-index: -2;
+    z-index: -1;
     height: auto;
     width: 100%;
     filter: sepia(50%) saturate(300%);
+    transition: all 0.5s ease;
+    &:hover {
+      filter: contrast(150%);
+      transform: scale(1.1);
+    }
 
     // filter: grayscale(100%) brightness(40%) sepia(100%) hue-rotate(-50deg)
     //   saturate(600%) contrast(0.8);
@@ -187,6 +188,7 @@ a {
       height: auto;
     }
   }
+
   .event-name,
   .event-time,
   .event-location {

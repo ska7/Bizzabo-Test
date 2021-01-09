@@ -1,10 +1,11 @@
 import React from "react";
+import noImage from "../img/photo_not_available.png";
 
 export const Event = ({ eventImage, eventName, eventTime, eventLocation }) => {
   return (
     <div className="event">
       <div className="event-image">
-        <img src={eventImage} />
+        <img src={eventImage ? eventImage : noImage} />
       </div>
       <div className="event-name">
         <p>{eventName}</p>
