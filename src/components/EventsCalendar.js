@@ -1,33 +1,30 @@
 import React, { useEffect, useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import axios from "axios";
+
 import { Modal } from "./Modal";
 
-export const EventsCalendar = () => {
-  const proxyurl = "https://cors-anywhere.herokuapp.com/";
-  const url = "https://api.bizzabo.com/api/events";
-  const [apiKey, setApiKey] = useState("");
+export const EventsCalendar = ({ events }) => {
   const [value, onChange] = useState(new Date());
-  const [events, setEvents] = useState([]);
+
   const [dayEvents, setDayEvents] = useState([]);
   const [modal, showModal] = useState({ isOpen: false, dayClicked: "" });
   const hideModal = () => showModal({ ...modal, isOpen: false });
   useEffect(() => {}, []);
 
-  const handleClick = () => {
-    axios
-      .get(proxyurl + url, {
-        headers: {
-          Authorization: `Bearer b2f9b657-d8fd-4c34-a28b-eba13cab25c2`,
-        },
-      })
-      .then((res) => {
-        setEvents(res.data.content);
-        console.log(res.data.content);
-      })
-      .catch((e) => console.log(e));
-  };
+  // const handleClick = () => {
+  //   axios
+  //     .get(proxyurl + url, {
+  //       headers: {
+  //         Authorization: `Bearer b2f9b657-d8fd-4c34-a28b-eba13cab25c2`,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       setEvents(res.data.content);
+  //       console.log(res.data.content);
+  //     })
+  //     .catch((e) => console.log(e));
+  // };
 
   // We need date formatted as yyyy-mm-dd
   const formatDate = (dateString) => {
@@ -76,7 +73,7 @@ export const EventsCalendar = () => {
   };
   return (
     <>
-      <button onClick={handleClick}>PULL DATA</button>
+      {/* <button onClick={handleClick}>PULL DATA</button> */}
       <Calendar
         onChange={onChange}
         value={value}
