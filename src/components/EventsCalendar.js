@@ -88,7 +88,6 @@ export const EventsCalendar = ({ events }) => {
 
           // Loop through all the events and store the ones due date clicked in state
           setDayEvents(getDayEvents(events, dayClicked));
-
           showModal({
             isOpen: true,
             dayClicked: dayClicked,

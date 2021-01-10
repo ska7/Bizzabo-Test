@@ -32,6 +32,14 @@ a {
   @include displayColumn;
   background: url("./img/bizzabo-background.png");
   background-position: center;
+  overflow: hidden;
+}
+
+.wrapper {
+  position: absolute;
+  @include displayColumn;
+  width: 100%;
+  height: 100%;
 }
 
 .event-tile-style {
@@ -203,6 +211,7 @@ a {
 }
 
 .input-container {
+  position: absolute;
   @include displayColumn;
   width: 100%;
   height: 100%;
@@ -240,5 +249,50 @@ a {
       cursor: pointer;
       background: rgb(51, 147, 206);
     }
+  }
+}
+
+.loader {
+  position: absolute;
+  @include displayColumn;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%;
+  color: black;
+  .loader-circle {
+    height: 130px;
+    width: 130px;
+    // margin-left: auto;
+    // margin-right: auto;
+    animation: spin 1s forwards linear infinite;
+  }
+}
+
+// CSS TRANSITION
+
+.slide-enter {
+  opacity: 0;
+}
+.slide-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+.slide-exit {
+  opacity: 1;
+}
+.slide-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
