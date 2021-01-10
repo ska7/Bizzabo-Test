@@ -9,21 +9,21 @@ import { Slide } from "@material-ui/core";
 import Loader from "./components/Loader";
 
 const App = () => {
-  const [apiKey, setApiKey] = useState("");
+  const [placeholder, setPlaceholder] = useState("");
   const [loading, setLoading] = useState(false);
   const [events, setEvents] = useState([]);
   const [showCalendar, setShowCalendar] = useState(false);
 
   const validateKey = (apiKey, inputRef) => {
     setLoading(true);
+    // if input field is empty, put focus to it and return
     if (!apiKey) {
       inputRef.current.focus();
       return;
     }
+
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
     const url = "https://api.bizzabo.com/api/events";
-    // setVisible(true);
-    setApiKey(apiKey);
     axios
       .get(proxyurl + url, {
         headers: {
@@ -34,9 +34,12 @@ const App = () => {
         setLoading(false);
         setEvents(res.data.content);
         setShowCalendar(true);
-        console.log(res.data.content);
       })
-      .catch((e) => console.log(e));
+      .catch((e) => {
+        // If there's an error, its text message will be displayed as a placeholder within the input field
+        setPlaceholder(e.response.statusText);
+        setLoading(false);
+      });
   };
 
   return (
@@ -47,7 +50,6 @@ const App = () => {
         mountOnEnter
         unmountOnExit
         timeout={300}
-        // children={Loader}
       >
         <div>
           <Loader />
@@ -59,7 +61,6 @@ const App = () => {
         mountOnEnter
         unmountOnExit
         timeout={500}
-        // children={EventsCalendar}
       >
         <div className="wrapper">
           <EventsCalendar events={events} />
@@ -71,10 +72,9 @@ const App = () => {
         mountOnEnter={false}
         unmountOnExit
         timeout={300}
-        // children={Input}
       >
-        <div style={{ position: "absolute", width: "100%", height: "100%" }}>
-          <Input validateKey={validateKey} />
+        <div className="wrapper">
+          <Input validateKey={validateKey} placeholder={placeholder} />
         </div>
       </Slide>
     </div>

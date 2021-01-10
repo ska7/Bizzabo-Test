@@ -42,7 +42,7 @@ a {
   height: 100%;
 }
 
-.event-tile-style {
+.event-tile {
   z-index: 1;
   position: absolute;
   top: 0;
@@ -54,6 +54,7 @@ a {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  transition: all 0.5s ease;
 
   .event-tile-date-number {
     position: absolute;
@@ -95,6 +96,10 @@ a {
       transform: scale(1.1);
     }
   }
+}
+
+.event-tile:hover > img {
+  transform: scale(1.1);
 }
 
 .modal-container {
@@ -224,6 +229,9 @@ a {
       caret-color: white;
       border: 5px solid rgba(59, 141, 191, 0.6);
       outline: none;
+    }
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
     }
   }
   input,

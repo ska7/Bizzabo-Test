@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { Modal } from "./Modal";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-
-import { Modal } from "./Modal";
 
 export const EventsCalendar = ({ events }) => {
   const [value, onChange] = useState(new Date());
@@ -10,7 +9,6 @@ export const EventsCalendar = ({ events }) => {
   const [dayEvents, setDayEvents] = useState([]);
   const [modal, showModal] = useState({ isOpen: false, dayClicked: "" });
   const hideModal = () => showModal({ ...modal, isOpen: false });
-  useEffect(() => {}, []);
 
   // const handleClick = () => {
   //   axios
@@ -51,7 +49,7 @@ export const EventsCalendar = ({ events }) => {
       );
       if (calendarDate === eventDate) {
         return (
-          <div className="event-tile-style">
+          <div className="event-tile">
             <div className="event-tile-date-number">
               <p>{day}</p>
             </div>
@@ -73,7 +71,6 @@ export const EventsCalendar = ({ events }) => {
   };
   return (
     <>
-      {/* <button onClick={handleClick}>PULL DATA</button> */}
       <Calendar
         onChange={onChange}
         value={value}
