@@ -22,11 +22,11 @@ const App = () => {
       return;
     }
 
-    // const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
     const url = "https://api.bizzabo.com/api/events";
     try {
       axios
-        .get(url, {
+        .get(proxyurl + url, {
           headers: {
             Authorization: `Bearer ${apiKey}`,
           },
