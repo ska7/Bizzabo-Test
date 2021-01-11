@@ -24,22 +24,26 @@ const App = () => {
 
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
     const url = "https://api.bizzabo.com/api/events";
-    axios
-      .get(proxyurl + url, {
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-        },
-      })
-      .then((res) => {
-        setLoading(false);
-        setEvents(res.data.content);
-        setShowCalendar(true);
-      })
-      .catch((e) => {
-        // If there's an error, its text message will be displayed as a placeholder within the input field
-        setPlaceholder(e.response.statusText);
-        setLoading(false);
-      });
+    try {
+      axios
+        .get(proxyurl + url, {
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+          },
+        })
+        .then((res) => {
+          setLoading(false);
+          setEvents(res.data.content);
+          setShowCalendar(true);
+        })
+        .catch((e) => {
+          // If there's an error, its text message will be displayed as a placeholder within the input field
+          setPlaceholder(e.response.statusText);
+          setLoading(false);
+        });
+    } catch (e) {
+      setPlaceholder(e.response.statusText);
+    }
   };
 
   return (
