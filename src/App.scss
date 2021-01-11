@@ -139,7 +139,7 @@ a {
       height: 75px;
       width: 100%;
       border-bottom: 1px solid white;
-      margin-bottom: 50px;
+      // margin-bottom: 50px;
       .date {
         width: 35%;
         color: rgb(255, 255, 255);
@@ -302,5 +302,69 @@ a {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 900px) {
+  .modal-container {
+    .modal {
+      width: 100%;
+      height: auto;
+      .modal-wrapper {
+        height: 100px;
+        .what,
+        .when,
+        .where {
+          img {
+            height: 35%;
+          }
+        }
+      }
+    }
+  }
+
+  .event {
+    .event-name,
+    .event-time,
+    .event-location {
+      @include displayColumn;
+
+      height: 100%;
+      width: 22%;
+      color: white;
+      text-align: center;
+      p {
+        padding: 20px;
+        font-size: 15px;
+      }
+    }
+  }
+
+  .event-tile {
+    @include displayColumn;
+    .event-tile-text {
+      font-size: 8px;
+    }
+    img {
+      height: 100%;
+      width: auto;
+    }
+    .event-tile-date-number {
+      p {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+
+  .input-container {
+    text-align: center;
+    input,
+    button {
+      width: 90%;
+    }
+  }
+
+  .wrapper {
   }
 }

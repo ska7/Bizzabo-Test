@@ -5,7 +5,7 @@ export const Event = ({ eventImage, eventName, eventTime, eventLocation }) => {
   return (
     <div className="event">
       <div className="event-image">
-        <img src={eventImage ? eventImage : noImage} />
+        <img src={eventImage ? eventImage : noImage} alt="" />
       </div>
       <div className="event-name">
         <p>{eventName}</p>

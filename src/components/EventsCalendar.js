@@ -5,26 +5,10 @@ import "react-calendar/dist/Calendar.css";
 
 export const EventsCalendar = ({ events }) => {
   const [value, onChange] = useState(new Date());
-
   const [dayEvents, setDayEvents] = useState([]);
   const [modal, showModal] = useState({ isOpen: false, dayClicked: "" });
   const hideModal = () => showModal({ ...modal, isOpen: false });
 
-  // const handleClick = () => {
-  //   axios
-  //     .get(proxyurl + url, {
-  //       headers: {
-  //         Authorization: `Bearer b2f9b657-d8fd-4c34-a28b-eba13cab25c2`,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       setEvents(res.data.content);
-  //       console.log(res.data.content);
-  //     })
-  //     .catch((e) => console.log(e));
-  // };
-
-  // We need date formatted as yyyy-mm-dd
   const formatDate = (dateString) => {
     let stringParts = dateString.split("/");
     // console.log("PARTS", stringParts);
@@ -36,7 +20,9 @@ export const EventsCalendar = ({ events }) => {
 
   const getTileContent = (events, date) => {
     const day = date.getDate();
+    // We loop through events pulled out from the account and assign each tile in the calendar its events by matching dates.
     for (let event of events) {
+      // We need date formatted as yyyy-mm-dd
       const eventDate = event.startDate.split("T")[0];
       const options = {
         timeZone: event.timeZone,
@@ -44,6 +30,7 @@ export const EventsCalendar = ({ events }) => {
         month: "2-digit",
         day: "2-digit",
       };
+      // We need date to be formatted here the same way too so we can match it
       const calendarDate = formatDate(
         new Intl.DateTimeFormat("en-US", options).format(date)
       );
@@ -75,10 +62,11 @@ export const EventsCalendar = ({ events }) => {
         onChange={onChange}
         value={value}
         locale="en-US"
-        tileContent={({ activeStartDate, date, view }) => {
+        // activeStartDate,
+        tileContent={({ date, view }) => {
           if (view === "month") return getTileContent(events, date);
         }}
-        onClickDay={(value, event) => {
+        onClickDay={(value) => {
           const dayClicked = formatDate(
             new Intl.DateTimeFormat("en-US").format(value)
           );
