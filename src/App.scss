@@ -29,6 +29,7 @@ a {
 .App {
   position: relative;
   min-height: 100vh;
+  width: 100vw;
   @include displayColumn;
   background: url("./img/bizzabo-background.png");
   background-position: center;

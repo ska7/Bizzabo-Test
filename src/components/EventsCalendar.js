@@ -51,7 +51,6 @@ export const EventsCalendar = ({ events }) => {
   const getDayEvents = (events, date) => {
     const dueEvents = events.filter((event) => {
       const eventDate = event.startDate.split("T")[0];
-      console.log(eventDate, date);
       return eventDate === date;
     });
     return dueEvents;

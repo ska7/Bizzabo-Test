@@ -23,8 +23,6 @@ export const Modal = ({ isOpen, dayEvents, hideModal, dayClicked }) => {
   };
 
   useEffect(() => {
-    // console.log("MODAL REF", modalRef);
-    // console.log("MODAL REF", modalRef.current);
     isOpen && modalRef.current.focus();
   }, [isOpen]);
   return (
@@ -41,9 +39,14 @@ export const Modal = ({ isOpen, dayEvents, hideModal, dayClicked }) => {
             <ModalLegend dayClicked={dayClicked} />
 
             {/* eslint-disable-next-line */}
-            {dayEvents.map((event) => {
+            {dayEvents.map((event, idx) => {
               return (
-                <a href={event.websiteUrl} target="_blank" rel="noreferrer">
+                <a
+                  key={idx}
+                  href={event.websiteUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   <Event
                     eventImage={event.coverPhotoUrl}
                     eventName={formatEventInfo(event.name)}

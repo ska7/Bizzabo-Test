@@ -19,6 +19,7 @@ const App = () => {
     // if input field is empty, put focus to it and return
     if (!apiKey) {
       inputRef.current.focus();
+      setLoading(false);
       return;
     }
 
@@ -38,11 +39,12 @@ const App = () => {
         })
         .catch((e) => {
           // If there's an error, its text message will be displayed as a placeholder within the input field
-          setPlaceholder(e.response.statusText);
+          setPlaceholder("Error occured. Try again");
           setLoading(false);
         });
     } catch (e) {
-      setPlaceholder(e.response.statusText);
+      setPlaceholder("Error occured. Try again");
+      setLoading(false);
     }
   };
 
